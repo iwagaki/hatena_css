@@ -1,0 +1,170 @@
+%!PS-Adobe-3.0
+
+/box {
+    /height exch def
+    /width exch def
+    /pos_y exch def
+    /pos_x exch def
+    pos_x pos_y moveto
+    pos_x width add  pos_y  lineto
+    pos_x width add  pos_y height sub  lineto
+    pos_x  pos_y height sub  lineto
+    pos_x pos_y lineto
+} def
+
+
+/box2 {
+    /array_dash exch def
+    /array_linewidth exch def
+    /array_color exch def
+    /height exch def
+    /width exch def
+    /pos_y exch def
+    /pos_x exch def
+    /array_index [0 1 2 3] def
+    /array_diff [[width 0] [0 height -1 mul] [width -1 mul 0] [0 height]] def
+    array_index {
+        /index exch def
+        newpath
+        pos_x pos_y moveto
+        /diff array_diff index get def
+        pos_x diff 0 get add  pos_y diff 1 get add  lineto
+        array_color index get aload pstack pop setrgbcolor
+        array_linewidth index get setlinewidth
+        array_dash index get 0 setdash
+        stroke
+        /pos_x pos_x diff 0 get add def
+        /pos_y pos_y diff 1 get add def
+    } forall
+} def
+
+
+
+/multilines {
+    /str exch def
+    /line_height exch def
+    /pos_y exch def	
+    /pos_x exch def
+    {
+        str (\n) search
+        % (abbc) (bb) search ==> (c) (bb) (a) true
+        % (abbc) (B) search ==> (abbc) false
+        {
+            pos_x pos_y moveto
+            show
+            /pos_y pos_y 5 sub def
+            pop % remove (\n)
+            /str exch def
+        }
+        {
+            pos_x pos_y moveto
+            show
+            exit
+        } ifelse
+    } loop
+} def
+
+10 700 translate
+
+/Hevetica-Bold findfont 5 scalefont setfont
+
+newpath
+0 50 5 (\
+The concept and rule:
+- 1 section (div.section) per day (div.day)
+- The title of the day (div.day h2 title) isn't used 
+- div.body is used for the shadow of div.section
+- The title of the section (div.section h3 title) is used for the title of the day instead 
+- h4 can be used for each item
+) multilines
+
+
+% div.day
+1 0 0 setrgbcolor
+
+newpath
+0 0 500 300 box
+0.5 setlinewidth
+[2 2] 0 setdash
+stroke
+
+0 2 5 (div.day) multilines
+
+% div.day title
+0 0 0 setrgbcolor
+
+2 -7 5 (2017-XX-XX [h2 ==> none]) multilines
+
+% div.body
+0 0 1 setrgbcolor
+
+10 -20 480 270
+[[0 0 1] [0 0 1] [0 0 1] [0 0 1]]
+[0.5 1.0 1.0 0.5]
+[[2 2] [] [] [2 2]] 
+box2
+
+10 -18 5 (div.body [border-left, top ==> none, border-bottom, right ==> solid 2px #e5e5s5]) multilines
+
+% div.section
+0 0.5 1 setrgbcolor
+
+newpath
+20 -30 460 250 box
+0.5 setlinewidth
+[] 0 setdash
+stroke
+
+20 -28 5 (div.section [border-left, top, bottom, right ==> solid 1px #808080]) multilines
+
+% h3
+0 0.5 0 setrgbcolor
+
+30 -50 440 20
+[[0 0.5 0] [0 0.5 0] [0 0.5 0] [0 0.5 0]]
+[0.5 0.5 0.5 0.5]
+[[2 2] [2 2] [] [2 2]]
+box2
+
+newpath
+30 -48 5 (h3 [border-left, top, right ==> none, border-bottom: dashed 1x #808080]) multilines
+
+0 0 0 setrgbcolor
+35 -60 5 (h3) multilines
+35 -80 5 (sectioncategory) multilines
+
+% h4
+0 0.5 0 setrgbcolor
+
+30 -100 440 20
+[[0 0.5 0] [0 0.5 0] [0 0.5 0] [0 0.5 0]]
+[0.5 0.5 0.5 4]
+[[2 2] [2 2] [2 2] []]
+box2
+
+newpath
+30 -98 5 (h4 [border-lef: solid 4px #0593E2) multilines
+
+0 0 0 setrgbcolor
+35 -110 5 (h4) multilines
+
+
+% h4-2
+0 0.5 0 setrgbcolor
+
+30 -140 440 20
+[[0 0.5 0] [0 0.5 0] [0 0.5 0] [0 0.5 0]]
+[0.5 0.5 0.5 4]
+[[2 2] [2 2] [2 2] []]
+box2
+
+newpath
+30 -138 5 (h4 [border-lef: solid 4px #0593E2) multilines
+
+0 0 0 setrgbcolor
+35 -150 5 (h4) multilines
+
+
+
+
+%%EOF
